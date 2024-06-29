@@ -111,7 +111,6 @@ export default function Home() {
                             <input type="text" id="table-search-users" className="block p-2 ps-10 text-[12px] text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 " placeholder="Buscar Usuario" />
                         </div>
                     </div> */}
-                    {(query === 'FTL') && <div className='my-10'><Link href='/Admin/Cotizador/ComisionFTL'> <Button theme="Primary" >ComisionFTL</Button></Link></div>}
                     {(query === 'FTL') && <table className="relative text-[12px] w-[2500px] text-left  text-gray-500 ">
                        
                         <thead className="realative top-0 text-xs text-gray-700 uppercase    ">
@@ -265,6 +264,7 @@ export default function Home() {
                             }
                         </tbody>
                     </table>}
+                    {(query === 'mercancias') && <div className='my-10'><Link href='/Admin/Cotizador/ComisionFTL'> <Button theme="Primary" >Comision Mercancia</Button></Link></div>}
 
                     {query === 'mercancias' && <table className="relative text-[12px] w-[800px] text-left rtl:text-right text-gray-500 ">
                         <thead className="realative top-0 text-xs text-gray-700 uppercase    ">

@@ -152,8 +152,8 @@ function Pages() {
                             </td>
                         </tr>
                     </table>
+                    {db && db.subItems &&<h5 className=' font-medium text-[16px]'>STATUS <br /> </h5>}
 
-                    <h5 className=' font-medium text-[16px]'>STATUS <br /> </h5>
 
                     <table className='w-full mt-[20px] border-collapse	table-fixed'>
 

@@ -11,16 +11,7 @@ import { useRouter } from 'next/navigation';
 import Modal from '@/components/Modal'
 import InputFlotante from '@/components/InputFlotante'
 
-
-
-
-
-
 export default function Home() {
-
-
-
-
     const { user, introVideo, userDB, setUserProfile, setUserSuccess, success, trackingDB, setUserData, tracking, postsIMG, setUserPostsIMG, item, cliente, setCliente, cart, setCart, modal, setModal } = useUser()
     const router = useRouter()
     const [query, setQuery] = useState('')
@@ -29,38 +20,22 @@ export default function Home() {
     const [filter, setFilter] = useState('')
 
 
-
-
-    function handlerOnChange(e, key) {
-        setData({ ...data, [key]: { ...data[key], [e.target.name]: e.target.value } })
-    }
     function handlerFilter(e) {
         setFilter(e.target.value)
         console.log(filter)
     }
-
-
-
-    console.log(data)
-
-
-
-    function saveFrontPage(e, key) {
-        console.log('jhdjskf')
-        e.preventDefault()
-        if (data[key]) {
-            setUserSuccess('Cargando')
-            writeUserData(`/tracking/${key}`, data[key], setUserSuccess)
-        }
-    }
-
-    function close(e) {
-        router.back()
-    }
     function handlerEdit(r) {
         router.push(`Tracking/Edit?item=${r}`)
     }
-    console.log(trackingDB)
+    function close(e) {
+        router.back()
+    }
+    function handlerRemove(e,i) {
+        e.stopPropagation() 
+        console.log(i[0])
+        removeData(`/Tracking/${i[0]}`, setUserSuccess,)
+    }
+    console.log(query)
     useEffect(() => {
         if (window && typeof window !== "undefined") {
             setQuery(window.location.href.split('=')[1])
@@ -104,13 +79,13 @@ export default function Home() {
                         {
                             trackingDB && trackingDB && Object.entries(trackingDB).map((i, index) => {
                                 return i[1]['CODIGO DE SERVICIO'] && i[1]['CODIGO DE SERVICIO'].includes(filter) && <div className='relative bg-white flex justify-between items-center px-5 py-3 border-[.5px] cursor-pointer ' onClick={() => handlerEdit(i[1]['CODIGO DE SERVICIO'])}>
-                                    <span> CODIGO DE SERVICIO: {i[1]['CODIGO DE SERVICIO']}</span>    <span>{i[1]['FECHA DE CREACION']}</span>
+                                    <span> CODIGO DE SERVICIO: {i[1]['CODIGO DE SERVICIO']} <br />{i[1]['FECHA DE CREACION']}</span>
+                                    {/* <span></span> */}
+                                    <div className="w-[150px]"> <Button theme="Danger" click={(e) => { handlerRemove(e,i) }}>Eliminar</Button></div>
                                 </div>
                             })
                         }
                     </div>
-
-
                 </div>
             </div>
             {success === 'Cargando' && <Loader>ghfhfhj</Loader>}
