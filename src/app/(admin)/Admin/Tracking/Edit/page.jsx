@@ -37,7 +37,7 @@ export default function Home() {
     function handlerLess2(d) {
         let db = { ...data2 };
         delete db[`item${data2 !== undefined && Object.keys(data2).length - 1}`];
-        removeData(`Cliente/priceFCL/${query}/flete/item${Object.keys(data2).length - 1}`, setUserSuccess, () => setData2(db))
+        removeData(`/Tracking/${query}/subItems/item${Object.keys(data2).length - 1}`, setUserSuccess, () => setData2(db))
         return
     }
     function onChangeHandler2(e, index, d) {
@@ -50,9 +50,9 @@ export default function Home() {
     function saveFrontPage(e) {
         e.preventDefault()
         setUserSuccess('Cargando')
-        db 
-        ? writeUserData(`/Tracking/${query}`, { ...data[query], trackIcon: db }, setUserSuccess)
-        : writeUserData(`/Tracking/${query}`, { ...data[query]}, setUserSuccess)
+        db
+            ? writeUserData(`/Tracking/${query}`, { ...data[query], trackIcon: db }, setUserSuccess)
+            : writeUserData(`/Tracking/${query}`, { ...data[query] }, setUserSuccess)
     }
     function saveFrontPage2(e) {
         e.preventDefault()
@@ -66,7 +66,10 @@ export default function Home() {
         if (window && typeof window !== "undefined") {
             setQuery(window.location.href.split('=')[1])
         }
-    }, [cliente, trackingDB])
+        if (trackingDB[query] && trackingDB[query].subItems) {
+            setData2({ ...trackingDB[query].subItems, ...data2 })
+        }
+    }, [cliente, query, trackingDB])
     console.log(data2)
     return (
 
@@ -112,14 +115,34 @@ export default function Home() {
 
                         </div>
                     </form>}
+
+
+
+                    <div className="relative flex ">
+                        <button type='button' className="bg-red-500 text-white flex font-bold py-2 px-4 rounded-l" onClick={() => handlerLess2()}>
+                            -
+                        </button>
+                        <button type='button' className="bg-green-500 text-white font-bold py-2 px-4 rounded-r" onClick={() => setData2({ ...data2, [`item${data2 !== undefined && Object.keys(data2).length}`]: { ic: '', ip: '' } })} >
+                            +
+                        </button>
+                    </div>
+
+
+
+
+
+
+
+
+
                     {trackingDB[query] && <form className="relative  pt-5 sm:col-span-3 mb-5 pb-5 "  >
                         <div className='relative p-5 my-5 mt-10 bg-white space-y-5 shadow-2xl  '>
-              
+
                             <h5 className='text-center font-medium text-[16px]'>STATUS +<br /> </h5>
-                            {trackingDB[query] && trackingDB[query].subItems && Object.values(trackingDB[query].subItems).map((item, index) => {
+                            {data2 && data2 && Object.values(data2).map((item, index) => {
                                 return <div className=' space-y-5 border-b md:grid md:grid-cols-2 md:place-items-end md:gap-2  border-[#818181] pb-5'>
-                                    < InputFlotante type="text" name={`ip`} uid={`column_${index}`} onChange={(e) => onChangeHandler2(e, index, )} value={data2[`item${index}`] && data2[`item${index}`][`ip`] ? data2[`item${index}`][`ip`] : item[`ip`]} required label={'Item'} shadow='shadow-white' />
-                                    < InputFlotante type="text" name={`ic`} uid={`value_${index}`} onChange={(e) => onChangeHandler2(e, index, )} value={data2[`item${index}`] && data2[`item${index}`][`ic`] ? data2[`item${index}`][`ic`] : item[`ic`]} required label={'Valor'} shadow='shadow-white' />
+                                    < InputFlotante type="text" name={`ip`} uid={`column_${index}`} onChange={(e) => onChangeHandler2(e, index,)} value={data2[`item${index}`] && data2[`item${index}`][`ip`] ? data2[`item${index}`][`ip`] : item[`ip`]} required label={'Item'} shadow='shadow-white' />
+                                    < InputFlotante type="text" name={`ic`} uid={`value_${index}`} onChange={(e) => onChangeHandler2(e, index,)} value={data2[`item${index}`] && data2[`item${index}`][`ic`] ? data2[`item${index}`][`ic`] : item[`ic`]} required label={'Valor'} shadow='shadow-white' />
                                 </div>
                             })
                             }
