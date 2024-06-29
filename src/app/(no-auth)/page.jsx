@@ -116,7 +116,7 @@ function Section({ subtitle, description, video, gradiente, id, children, tarjet
 
 
       {cliente && cliente[id] && cliente[id].tarjetas && Object.entries(tarjetas).map((i, index) => {
-        return <div className='inline px-5 z-50' key={index}>
+        return <div className='flex  flex-wrap px-5 z-50' key={index}>
           <Componente route={i[0]} id={id} db={i[1]} title={i[1].title} image={i[1].url} paragraph={i[1].paragraph} />
         </div>
       })}
